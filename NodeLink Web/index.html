@@ -12,14 +12,16 @@
   --grad-1:linear-gradient(135deg,#ff4d6d 0%,#a86bff 55%,#48a8ff 100%);--ease:cubic-bezier(.22,.61,.36,1);
   --t-fast:.18s;--t-mid:.28s;--t-slow:.45s
 }
-@media (prefers-color-scheme: light){
-  :root{--bg:#fafafa;--fg:#101114;--muted:#4b4e57;--card:#fff;--border:#e6e7eb;--shadow:0 8px 24px rgba(0,0,0,.10);--elev:0 16px 36px rgba(0,0,0,.14)}
+body[data-theme="light"]{
+  --bg:#fafafa;--fg:#101114;--muted:#4b4e57;--card:#fff;--border:#e6e7eb;
+  --shadow:0 8px 24px rgba(0,0,0,.10);--elev:0 16px 36px rgba(0,0,0,.14)
 }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0;background:radial-gradient(1200px 800px at 80% -10%,rgba(247,181,0,.07),transparent 60%),radial-gradient(1000px 700px at -10% 0%,rgba(255,77,109,.08),transparent 60%),var(--bg);
-  color:var(--fg);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;letter-spacing:.1px
+  color:var(--fg);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;letter-spacing:.1px;
+  transition: background-color var(--t-mid) var(--ease), color var(--t-mid) var(--ease);
 }
 .wrap{max-width:1100px;margin:0 auto;padding:24px clamp(16px,4vw,28px)}
 .nav{position:sticky;top:0;z-index:20;backdrop-filter:saturate(140%) blur(8px);background:color-mix(in oklab,var(--bg) 85%,transparent);border-bottom:1px solid var(--border)}
@@ -27,9 +29,9 @@ body{
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--fg)}
 .logo{width:28px;height:28px;border-radius:8px;display:block;background:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),0 4px 14px rgba(0,0,0,.35);object-fit:cover}
 .brand span{font-weight:700;letter-spacing:.4px}
-.lang{display:flex;align-items:center;gap:8px}
-.lang label{color:var(--muted);font-size:.9rem}
-.lang select{
+.theme-switcher{display:flex;align-items:center;gap:8px}
+.theme-switcher label{color:var(--muted);font-size:.9rem}
+.theme-switcher select{
   appearance:none;background:var(--card);color:var(--fg);border:1px solid var(--border);
   padding:8px 28px 8px 12px;border-radius:10px;cursor:pointer;
   background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
@@ -37,7 +39,7 @@ body{
   background-size:5px 5px,5px 5px;background-repeat:no-repeat;
   transition:border-color var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease)
 }
-.lang select:focus{outline:none;box-shadow:0 0 0 3px rgba(72,168,255,.25)}
+.theme-switcher select:focus{outline:none;box-shadow:0 0 0 3px rgba(72,168,255,.25)}
 .hero{padding:40px 0 22px}
 .hero h1{margin:0 0 8px;font-size:clamp(24px,3.6vw,36px);letter-spacing:.2px}
 .hero p{margin:0;color:var(--muted)}
@@ -65,54 +67,55 @@ body{
 .social-link:hover{transform:translateY(-2px);background:color-mix(in oklab,var(--card) 30%,transparent);border-color:color-mix(in oklab,var(--accent-yellow) 40%,var(--border))}
 .icon{display:inline-flex;width:18px;height:18px;align-items:center;justify-content:center;color:var(--fg)}
 .id{color:var(--fg);font-variant-numeric:tabular-nums}
-.sched-toggle{position:absolute;opacity:0;pointer-events:none}
-.open-area{position:absolute;inset:0 0 52px 0;z-index:2;cursor:pointer;border-radius:inherit}
-.modal{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.52);opacity:0;pointer-events:none;transition:opacity var(--t-slow) var(--ease)}
-.modal-dialog{width:min(960px,92vw);max-height:92vh;background:var(--card);border:1px solid color-mix(in oklab,var(--accent-blue) 18%,var(--border));border-radius:20px;box-shadow:var(--elev);display:flex;flex-direction:column;overflow:hidden;transform:translateY(12px) scale(.98);transition:transform var(--t-slow) var(--ease)}
-.modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
-.modal-head h4{margin:0;font-size:1.06rem}
-.modal-close{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:color-mix(in oklab,var(--card) 30%,transparent);border:1px solid var(--border);color:var(--fg);cursor:pointer;transition:transform var(--t-fast) var(--ease),background var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease)}
-.modal-close:hover{transform:translateY(-1px);background:color-mix(in oklab,var(--card) 40%,transparent);border-color:color-mix(in oklab,var(--accent-blue) 40%,var(--border))}
-.modal-body{padding:14px 16px 18px;overflow:auto}
-.sched-grid{display:grid;grid-template-columns:80px repeat(5,1fr);grid-auto-rows:minmax(52px,1fr);gap:8px}
-.sched-grid .head{color:var(--muted);font-weight:700;text-align:center}
-.time{color:var(--muted);display:flex;align-items:center;justify-content:center;font-weight:600}
-.cell{display:flex;align-items:center;justify-content:center;border:1px dashed var(--border);border-radius:12px;padding:6px 8px;font-size:.92rem;background:color-mix(in oklab,var(--card) 88%,transparent)}
-.free{background:color-mix(in oklab,#35d07f 38%,var(--card));border-color:color-mix(in oklab,#35d07f 50%,var(--border));color:#0c2a19}
-.busy{background:color-mix(in oklab,#ff6b6b 38%,var(--card));border-color:color-mix(in oklab,#ff6b6b 50%,var(--border));color:#3a0a0a}
-.maybe{background:color-mix(in oklab,#ffd166 38%,var(--card));border-color:color-mix(in oklab,#ffd166 50%,var(--border));color:#3a290a}
-.sched-toggle:checked ~ .modal{opacity:1;pointer-events:auto}
-.sched-toggle:checked ~ .modal .modal-dialog{transform:translateY(0) scale(1)}
 .projects{margin:12px 0 34px}
 .projects h2{margin:8px 0 10px;font-size:clamp(18px,2.4vw,24px)}
 .projects p.desc{color:var(--muted);margin:0 0 14px}
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;list-style:none;padding:0;margin:0}
-.work-card{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);padding:16px;box-shadow:var(--shadow);transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease),border-color var(--t-mid) var(--ease)}
+.work-card{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);transition:transform var(--t-mid) var(--ease),box-shadow var(--t-mid) var(--ease),border-color var(--t-mid) var(--ease)}
 .work-card:hover{transform:translateY(-6px);box-shadow:var(--elev);border-color:color-mix(in oklab,var(--accent-blue) 36%,var(--border))}
+.work-card > a{display:block;padding:16px;text-decoration:none;color:var(--fg)}
 .work-card h3{margin:0 0 6px;font-size:1.02rem}
-.work-card a{color:var(--fg);text-decoration:none}
-.work-card a:hover{text-decoration:underline}
-.work-meta{margin:8px 0 0;color:var(--muted);font-size:.92rem}
+.work-card p.work-meta{margin:8px 0 0;color:var(--muted);font-size:.92rem}
+.contact{margin:40px 0;}
+.contact h2{margin:8px 0 10px;font-size:clamp(18px,2.4vw,24px);}
+.contact p.desc{color:var(--muted);margin:0 0 14px;}
+.contact-info{display:flex;flex-direction:column;gap:8px;max-width:320px}
+.contact-info a{
+  color:var(--fg);text-decoration:none;
+  display:inline-flex;align-items:center;gap:10px;
+  padding:8px 12px;border:1px solid var(--border);border-radius:10px;
+  transition:transform var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease),background var(--t-fast) var(--ease)
+}
+.contact-info a:hover{transform:translateY(-2px);background:color-mix(in oklab,var(--card) 30%,transparent);border-color:color-mix(in oklab,var(--accent-yellow) 40%,var(--border))}
 .footer{margin:6px 0 40px;color:var(--muted);font-size:.9rem;text-align:center}
 .footer strong{color:var(--fg)}
+body[data-theme="dark"] .badge{
+  background: color-mix(in oklab, var(--accent-yellow) 15%, transparent);
+  color: var(--accent-yellow);
+  border-color: color-mix(in oklab, var(--accent-yellow) 30%, transparent);
+}
+body[data-theme="dark"] .badge.alt{
+  background: color-mix(in oklab, var(--accent-red) 15%, transparent);
+  color: var(--accent-red);
+  border-color: color-mix(in oklab, var(--accent-red) 30%, transparent);
+}
 @media (prefers-reduced-motion: reduce){
   *{transition-duration:.01ms !important;animation-duration:.01ms !important;animation-iteration-count:1 !important}
 }
 </style>
 </head>
-<body>
+<body data-theme="dark">
 <div class="nav">
   <div class="inner">
-    <a class="brand" href="#" aria-label="Nodelink 홈">
+    <a class="brand" href="" aria-label="Nodelink 홈">
       <img class="logo" src="nodelink-logo.png" alt="Nodelink 로고" width="28" height="28" />
       <span>Nodelink</span>
     </a>
-    <div class="lang" aria-label="언어 선택">
-      <label for="lang">Lang</label>
-      <select id="lang" name="lang" aria-label="언어 선택">
-        <option value="ko" selected>KO</option>
-        <option value="en">EN</option>
-        <option value="ja">JA</option>
+    <div class="theme-switcher" aria-label="테마 선택">
+      <label for="theme-selector">테마</label>
+      <select id="theme-selector" name="theme" aria-label="테마 선택">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
       </select>
     </div>
   </div>
@@ -121,192 +124,58 @@ body{
 <div class="wrap">
   <section class="hero" aria-labelledby="title">
     <h1 id="title">Nodelink Team</h1>
-    <p>Development & DevOps</p>
+    <p>Since 2025</p>
   </section>
 
   <ul class="grid" aria-label="팀 멤버 목록">
     <li class="card">
-      <input id="m1" class="sched-toggle" type="checkbox" />
       <div class="role">Project Leader</div>
       <h3 class="name">이서원</h3>
       <p class="affiliation">국립군산대학교 · 컴퓨터정보공학과 · AILab</p>
       <div class="badges"><span class="badge">AI</span><span class="badge alt">CV</span><span class="badge">Python</span></div>
       <div class="social">
-        <a class="social-link" href="https://github.com/hasegawa3481" target="_blank" rel="noopener noreferrer" aria-label="GitHub: hasegawa3481"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58l-.01-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.4-1.35-1.78-1.35-1.78-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.82 1.33 3.51 1.02.11-.79.42-1.33.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5z"/></svg></span><span class="id">@hasegawa3481</span></a>
-        <a class="social-link" href="https://instagram.com/rei_tuyu" target="_blank" rel="noopener noreferrer" aria-label="Instagram: rei_tuyu"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z"/></svg></span><span class="id">@rei_tuyu</span></a>
-      </div>
-      <label class="open-area" for="m1" aria-label="이서원 시간표 보기"></label>
-      <div class="modal" aria-hidden="true">
-        <label class="modal" for="m1"></label>
-        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="m1-title">
-          <div class="modal-head">
-            <h4 id="m1-title">이서원 — 주간 시간표 (09:00–18:00)</h4>
-            <label for="m1" class="modal-close">닫기</label>
-          </div>
-          <div class="modal-body">
-            <div class="sched-grid">
-              <div></div><div class="head">월</div><div class="head">화</div><div class="head">수</div><div class="head">목</div><div class="head">금</div>
-              <div class="time">09:00</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div>
-              <div class="time">10:00</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div>
-              <div class="time">11:00</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div>
-              <div class="time">12:00</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div>
-              <div class="time">13:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">14:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">15:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">16:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">17:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">18:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-            </div>
-          </div>
-        </div>
+        <a class="social-link" href="https://github.com/hasegawa3481" target="_blank" rel="noopener noreferrer" aria-label="GitHub: hasegawa3481"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58l-.01-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.4-1.35-1.78-1.35-1.78-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.82 1.33 3.51 1.02.11-.79.42-1.33.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5z"/></svg></span><span class="id">hasegawa3481</span></a>
+        <a class="social-link" href="https://instagram.com/rei_tuyu" target="_blank" rel="noopener noreferrer" aria-label="Instagram: rei_tuyu"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.523 0 6.138.024 6.94.095.803.073 1.344.24 1.84.428a3.9 3.9 0 0 1 1.457.908 3.9 3.9 0 0 1 .908 1.457c.188.496.355 1.037.428 1.84C21.976 7.862 22 8.477 22 12s-.024 4.138-.095 4.94c-.073.803-.24 1.344-.428 1.84a3.9 3.9 0 0 1-.908 1.457 3.9 3.9 0 0 1-1.457.908c-.496.188-1.037.355-1.84.428C18.138 21.976 17.523 22 12 22s-4.138-.024-4.94-.095c-.803-.073-1.344-.24-1.84-.428a3.9 3.9 0 0 1-1.457-.908 3.9 3.9 0 0 1-.908-1.457c-.188-.496-.355-1.037-.428-1.84C2.024 16.138 2 15.523 2 12s.024-4.138.095-4.94c.073-.803.24-1.344.428-1.84A3.9 3.9 0 0 1 3.43 3.763a3.9 3.9 0 0 1 1.457-.908c.496-.188 1.037-.355 1.84-.428C7.862 2.024 8.477 2 12 2zm0 2a8.002 8.002 0 0 0-6.918 1.543c-.71.16-1.12.44-1.341.662-.222.221-.502.631-.662 1.34C4.009 8.35 4 8.87 4 12s.009 3.65.079 4.455c.16.71.44 1.12.662 1.341.221.222.631.502 1.34.662C6.85 19.991 7.37 20 12 20s3.65-.009 4.455-.079c.71-.16 1.12-.44 1.341-.662.222-.221.502-.631.662-1.34C19.991 15.65 20 15.13 20 12s-.009-3.65-.079-4.455c-.16-.71-.44-1.12-.662-1.34-.221-.222-.631-.502-1.34-.662C15.65 4.009 15.13 4 12 4zm0 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0zm8.5-5.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg></span><span class="id">rei_tuyu</span></a>
       </div>
     </li>
-
     <li class="card">
-      <input id="m2" class="sched-toggle" type="checkbox" />
       <div class="role">Frontend Leader</div>
       <h3 class="name">김건우</h3>
       <p class="affiliation">국립군산대학교 · 컴퓨터소프트웨어특성화대학</p>
       <div class="badges"><span class="badge">HTML</span><span class="badge alt">UI/UX</span><span class="badge">CSS</span></div>
       <div class="social">
-        <a class="social-link" href="https://github.com/geonNDI3" target="_blank" rel="noopener noreferrer" aria-label="GitHub: geonNDI3"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58l-.01-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.4-1.35-1.78-1.35-1.78-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.82 1.33 3.51 1.02.11-.79.42-1.33.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5z"/></svg></span><span class="id">@geonNDI3</span></a>
-        <a class="social-link" href="https://instagram.com/g_w1561" target="_blank" rel="noopener noreferrer" aria-label="Instagram: g_w1561"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z"/></svg></span><span class="id">@g_w1561</span></a>
-      </div>
-      <label class="open-area" for="m2" aria-label="김건우 시간표 보기"></label>
-      <div class="modal" aria-hidden="true">
-        <label class="modal" for="m2"></label>
-        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="m2-title">
-          <div class="modal-head">
-            <h4 id="m2-title">김건우 — 주간 시간표 (09:00–18:00)</h4>
-            <label for="m2" class="modal-close">닫기</label>
-          </div>
-          <div class="modal-body">
-            <div class="sched-grid">
-              <div></div><div class="head">월</div><div class="head">화</div><div class="head">수</div><div class="head">목</div><div class="head">금</div>
-              <div class="time">09:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell maybe">미정</div><div class="cell free">가능</div><div class="cell maybe">미정</div>
-              <div class="time">10:00</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div>
-              <div class="time">11:00</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div>
-              <div class="time">12:00</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div>
-              <div class="time">13:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">14:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">15:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">16:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">17:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">18:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-            </div>
-          </div>
-        </div>
+        <a class="social-link" href="https://github.com/geonNDI3" target="_blank" rel="noopener noreferrer" aria-label="GitHub: geonNDI3"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58l-.01-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.4-1.35-1.78-1.35-1.78-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.82 1.33 3.51 1.02.11-.79.42-1.33.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5z"/></svg></span><span class="id">geonNDI3</span></a>
+        <a class="social-link" href="https://instagram.com/g_w1561" target="_blank" rel="noopener noreferrer" aria-label="Instagram: g_w1561"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.523 0 6.138.024 6.94.095.803.073 1.344.24 1.84.428a3.9 3.9 0 0 1 1.457.908 3.9 3.9 0 0 1 .908 1.457c.188.496.355 1.037.428 1.84C21.976 7.862 22 8.477 22 12s-.024 4.138-.095 4.94c-.073.803-.24 1.344-.428 1.84a3.9 3.9 0 0 1-.908 1.457 3.9 3.9 0 0 1-1.457.908c-.496.188-1.037.355-1.84.428C18.138 21.976 17.523 22 12 22s-4.138-.024-4.94-.095c-.803-.073-1.344-.24-1.84-.428a3.9 3.9 0 0 1-1.457-.908 3.9 3.9 0 0 1-.908-1.457c-.188-.496-.355-1.037-.428-1.84C2.024 16.138 2 15.523 2 12s.024-4.138.095-4.94c.073-.803.24-1.344.428-1.84A3.9 3.9 0 0 1 3.43 3.763a3.9 3.9 0 0 1 1.457-.908c.496-.188 1.037-.355 1.84-.428C7.862 2.024 8.477 2 12 2zm0 2a8.002 8.002 0 0 0-6.918 1.543c-.71.16-1.12.44-1.341.662-.222.221-.502.631-.662 1.34C4.009 8.35 4 8.87 4 12s.009 3.65.079 4.455c.16.71.44 1.12.662 1.341.221.222.631.502 1.34.662C6.85 19.991 7.37 20 12 20s3.65-.009 4.455-.079c.71-.16 1.12-.44 1.341-.662.222-.221.502-.631.662-1.34C19.991 15.65 20 15.13 20 12s-.009-3.65-.079-4.455c-.16-.71-.44-1.12-.662-1.34-.221-.222-.631-.502-1.34-.662C15.65 4.009 15.13 4 12 4zm0 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0zm8.5-5.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg></span><span class="id">g_w1561</span></a>
       </div>
     </li>
-
     <li class="card">
-      <input id="m3" class="sched-toggle" type="checkbox" />
       <div class="role">Embedded</div>
       <h3 class="name">김동현</h3>
-      <p class="affiliation">국립군산대학교 · IT융합통신공학과</p>
+      <p class="affiliation">국립군산대학교 · 컴퓨터소프트웨어특성화대학</p>
       <div class="badges"><span class="badge">C</span><span class="badge alt">C++</span><span class="badge">OOP</span></div>
       <div class="social">
-        <a class="social-link" href="https://github.com/gora53" target="_blank" rel="noopener noreferrer" aria-label="GitHub: gora53"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58l-.01-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.4-1.35-1.78-1.35-1.78-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.82 1.33 3.51 1.02.11-.79.42-1.33.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5z"/></svg></span><span class="id">@gora53</span></a>
-        <a class="social-link" href="https://instagram.com/donghyun06" target="_blank" rel="noopener noreferrer" aria-label="Instagram: donghyun06"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z"/></svg></span><span class="id">@donghyun06</span></a>
-      </div>
-      <label class="open-area" for="m3" aria-label="김동현 시간표 보기"></label>
-      <div class="modal" aria-hidden="true">
-        <label class="modal" for="m3"></label>
-        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="m3-title">
-          <div class="modal-head">
-            <h4 id="m3-title">김동현 — 주간 시간표 (09:00–18:00)</h4>
-            <label for="m3" class="modal-close">닫기</label>
-          </div>
-          <div class="modal-body">
-            <div class="sched-grid">
-              <div></div><div class="head">월</div><div class="head">화</div><div class="head">수</div><div class="head">목</div><div class="head">금</div>
-              <div class="time">09:00</div><div class="cell free">가능</div><div class="cell maybe">미정</div><div class="cell free">가능</div><div class="cell maybe">미정</div><div class="cell free">가능</div>
-              <div class="time">10:00</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div>
-              <div class="time">11:00</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div>
-              <div class="time">12:00</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div>
-              <div class="time">13:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">14:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">15:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">16:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">17:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">18:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-            </div>
-          </div>
-        </div>
+        <a class="social-link" href="https://github.com/gora53" target="_blank" rel="noopener noreferrer" aria-label="GitHub: gora53"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58l-.01-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.4-1.35-1.78-1.35-1.78-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.82 1.33 3.51 1.02.11-.79.42-1.33.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5z"/></svg></span><span class="id">gora53</span></a>
+        <a class="social-link" href="https://instagram.com/donghyn06" target="_blank" rel="noopener noreferrer" aria-label="Instagram: donghyun06"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.523 0 6.138.024 6.94.095.803.073 1.344.24 1.84.428a3.9 3.9 0 0 1 1.457.908 3.9 3.9 0 0 1 .908 1.457c.188.496.355 1.037.428 1.84C21.976 7.862 22 8.477 22 12s-.024 4.138-.095 4.94c-.073.803-.24 1.344-.428 1.84a3.9 3.9 0 0 1-.908 1.457 3.9 3.9 0 0 1-1.457.908c-.496.188-1.037.355-1.84.428C18.138 21.976 17.523 22 12 22s-4.138-.024-4.94-.095c-.803-.073-1.344-.24-1.84-.428a3.9 3.9 0 0 1-1.457-.908 3.9 3.9 0 0 1-.908-1.457c-.188-.496-.355-1.037-.428-1.84C2.024 16.138 2 15.523 2 12s.024-4.138.095-4.94c.073-.803.24-1.344.428-1.84A3.9 3.9 0 0 1 3.43 3.763a3.9 3.9 0 0 1 1.457-.908c.496-.188 1.037-.355 1.84-.428C7.862 2.024 8.477 2 12 2zm0 2a8.002 8.002 0 0 0-6.918 1.543c-.71.16-1.12.44-1.341.662-.222.221-.502.631-.662 1.34C4.009 8.35 4 8.87 4 12s.009 3.65.079 4.455c.16.71.44 1.12.662 1.341.221.222.631.502 1.34.662C6.85 19.991 7.37 20 12 20s3.65-.009 4.455-.079c.71-.16 1.12-.44 1.341-.662.222-.221.502-.631.662-1.34C19.991 15.65 20 15.13 20 12s-.009-3.65-.079-4.455c-.16-.71-.44-1.12-.662-1.34-.221-.222-.631-.502-1.34-.662C15.65 4.009 15.13 4 12 4zm0 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0zm8.5-5.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg></span><span class="id">donghyn06</span></a>
       </div>
     </li>
-
     <li class="card">
-      <input id="m4" class="sched-toggle" type="checkbox" />
       <div class="role">Frontend</div>
       <h3 class="name">소정현</h3>
       <p class="affiliation">국립군산대학교 · 컴퓨터소프트웨어특성화대학</p>
       <div class="badges"><span class="badge">CSS</span><span class="badge alt">UI/UX</span><span class="badge">HTML</span></div>
       <div class="social">
-        <a class="social-link" href="https://github.com/thwjdgus" target="_blank" rel="noopener noreferrer" aria-label="GitHub: thwjdgus"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58l-.01-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.4-1.35-1.78-1.35-1.78-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.82 1.33 3.51 1.02.11-.79.42-1.33.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5z"/></svg></span><span class="id">@thwjdgus</span></a>
-        <a class="social-link" href="https://instagram.com/s_hyun06" target="_blank" rel="noopener noreferrer" aria-label="Instagram: s_hyun06"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z"/></svg></span><span class="id">@s_hyun06</span></a>
-      </div>
-      <label class="open-area" for="m4" aria-label="소정현 시간표 보기"></label>
-      <div class="modal" aria-hidden="true">
-        <label class="modal" for="m4"></label>
-        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="m4-title">
-          <div class="modal-head">
-            <h4 id="m4-title">소정현 — 주간 시간표 (09:00–18:00)</h4>
-            <label for="m4" class="modal-close">닫기</label>
-          </div>
-          <div class="modal-body">
-            <div class="sched-grid">
-              <div></div><div class="head">월</div><div class="head">화</div><div class="head">수</div><div class="head">목</div><div class="head">금</div>
-              <div class="time">09:00</div><div class="cell maybe">미정</div><div class="cell free">가능</div><div class="cell maybe">미정</div><div class="cell free">가능</div><div class="cell maybe">미정</div>
-              <div class="time">10:00</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div>
-              <div class="time">11:00</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div>
-              <div class="time">12:00</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div>
-              <div class="time">13:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">14:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">15:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">16:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">17:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">18:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-            </div>
-          </div>
-        </div>
+        <a class="social-link" href="https://github.com/thwjdgus" target="_blank" rel="noopener noreferrer" aria-label="GitHub: thwjdgus"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58l-.01-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.4-1.35-1.78-1.35-1.78-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.82 1.33 3.51 1.02.11-.79.42-1.33.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5z"/></svg></span><span class="id">thwjdgus</span></a>
+        <a class="social-link" href="https://instagram.com/s_hyeon06" target="_blank" rel="noopener noreferrer" aria-label="Instagram: s_hyun06"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.523 0 6.138.024 6.94.095.803.073 1.344.24 1.84.428a3.9 3.9 0 0 1 1.457.908 3.9 3.9 0 0 1 .908 1.457c.188.496.355 1.037.428 1.84C21.976 7.862 22 8.477 22 12s-.024 4.138-.095 4.94c-.073.803-.24 1.344-.428 1.84a3.9 3.9 0 0 1-.908 1.457 3.9 3.9 0 0 1-1.457.908c-.496.188-1.037.355-1.84.428C18.138 21.976 17.523 22 12 22s-4.138-.024-4.94-.095c-.803-.073-1.344-.24-1.84-.428a3.9 3.9 0 0 1-1.457-.908 3.9 3.9 0 0 1-.908-1.457c-.188-.496-.355-1.037-.428-1.84C2.024 16.138 2 15.523 2 12s.024-4.138.095-4.94c.073-.803.24-1.344.428-1.84A3.9 3.9 0 0 1 3.43 3.763a3.9 3.9 0 0 1 1.457-.908c.496-.188 1.037-.355 1.84-.428C7.862 2.024 8.477 2 12 2zm0 2a8.002 8.002 0 0 0-6.918 1.543c-.71.16-1.12.44-1.341.662-.222.221-.502.631-.662 1.34C4.009 8.35 4 8.87 4 12s.009 3.65.079 4.455c.16.71.44 1.12.662 1.341.221.222.631.502 1.34.662C6.85 19.991 7.37 20 12 20s3.65-.009 4.455-.079c.71-.16 1.12-.44 1.341-.662.222-.221.502-.631.662-1.34C19.991 15.65 20 15.13 20 12s-.009-3.65-.079-4.455c-.16-.71-.44-1.12-.662-1.34-.221-.222-.631-.502-1.34-.662C15.65 4.009 15.13 4 12 4zm0 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0zm8.5-5.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg></span><span class="id">s_hyeon06</span></a>
       </div>
     </li>
-
     <li class="card">
-      <input id="m5" class="sched-toggle" type="checkbox" />
       <div class="role">Backend Leader</div>
       <h3 class="name">문승환</h3>
       <p class="affiliation">국립군산대학교 · 컴퓨터소프트웨어특성화대학</p>
       <div class="badges"><span class="badge">Java</span><span class="badge alt">Python</span><span class="badge">JS</span></div>
       <div class="social">
-        <a class="social-link" href="https://github.com/Nubco" target="_blank" rel="noopener noreferrer" aria-label="GitHub: Nubco"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58l-.01-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.4-1.35-1.78-1.35-1.78-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.82 1.33 3.51 1.02.11-.79.42-1.33.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52 .12-3.17"/></svg></span><span class="id">@Nubco</span></a>
-        <a class="social-link" href="https://instagram.com/m_sh._.h" target="_blank" rel="noopener noreferrer" aria-label="Instagram: m_sh._.h"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z"/></svg></span><span class="id">@m_sh._.h</span></a>
-      </div>
-      <label class="open-area" for="m5" aria-label="문승환 시간표 보기"></label>
-      <div class="modal" aria-hidden="true">
-        <label class="modal" for="m5"></label>
-        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="m5-title">
-          <div class="modal-head">
-            <h4 id="m5-title">문승환 — 주간 시간표 (09:00–18:00)</h4>
-            <label for="m5" class="modal-close">닫기</label>
-          </div>
-          <div class="modal-body">
-            <div class="sched-grid">
-              <div></div><div class="head">월</div><div class="head">화</div><div class="head">수</div><div class="head">목</div><div class="head">금</div>
-              <div class="time">09:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell maybe">미정</div><div class="cell free">가능</div><div class="cell maybe">미정</div>
-              <div class="time">10:00</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div>
-              <div class="time">11:00</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div><div class="cell busy">일정</div>
-              <div class="time">12:00</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div><div class="cell maybe">미정</div>
-              <div class="time">13:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">14:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">15:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">16:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">17:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-              <div class="time">18:00</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div><div class="cell free">가능</div>
-            </div>
-          </div>
-        </div>
+        <a class="social-link" href="https://github.com/Nubco" target="_blank" rel="noopener noreferrer" aria-label="GitHub: Nubco"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58l-.01-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.4-1.35-1.78-1.35-1.78-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.26 1.86 1.26 1.08 1.86 2.82 1.33 3.51 1.02.11-.79.42-1.33.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5z"/></svg></span><span class="id">Nubco</span></a>
+        <a class="social-link" href="https://instagram.com/m_sh._.h" target="_blank" rel="noopener noreferrer" aria-label="Instagram: m_sh._.h"><span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c5.523 0 6.138.024 6.94.095.803.073 1.344.24 1.84.428a3.9 3.9 0 0 1 1.457.908 3.9 3.9 0 0 1 .908 1.457c.188.496.355 1.037.428 1.84C21.976 7.862 22 8.477 22 12s-.024 4.138-.095 4.94c-.073.803-.24 1.344-.428 1.84a3.9 3.9 0 0 1-.908 1.457 3.9 3.9 0 0 1-1.457.908c-.496.188-1.037.355-1.84.428C18.138 21.976 17.523 22 12 22s-4.138-.024-4.94-.095c-.803-.073-1.344-.24-1.84-.428a3.9 3.9 0 0 1-1.457-.908 3.9 3.9 0 0 1-.908-1.457c-.188-.496-.355-1.037-.428-1.84C2.024 16.138 2 15.523 2 12s.024-4.138.095-4.94c.073-.803.24-1.344.428-1.84A3.9 3.9 0 0 1 3.43 3.763a3.9 3.9 0 0 1 1.457-.908c.496-.188 1.037-.355 1.84-.428C7.862 2.024 8.477 2 12 2zm0 2a8.002 8.002 0 0 0-6.918 1.543c-.71.16-1.12.44-1.341.662-.222.221-.502.631-.662 1.34C4.009 8.35 4 8.87 4 12s.009 3.65.079 4.455c.16.71.44 1.12.662 1.341.221.222.631.502 1.34.662C6.85 19.991 7.37 20 12 20s3.65-.009 4.455-.079c.71-.16 1.12-.44 1.341-.662.222-.221.502-.631.662-1.34C19.991 15.65 20 15.13 20 12s-.009-3.65-.079-4.455c-.16-.71-.44-1.12-.662-1.34-.221-.222-.631-.502-1.34-.662C15.65 4.009 15.13 4 12 4zm0 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM8 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0zm8.5-5.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg></span><span class="id">m_sh._.h</span></a>
       </div>
     </li>
   </ul>
@@ -316,13 +185,52 @@ body{
     <p class="desc">진행 중인 프로젝트</p>
     <ul class="projects-grid" aria-label="프로젝트 목록">
       <li class="work-card">
-        <h3><a href="https://scalemeter.netlify.app/" target="_blank" rel="noopener noreferrer" aria-label="Muse Loader 새 탭에서 열기">Muse Loader 2.0</a></h3>
-        <p class="work-meta">당신의 악상을 마음껏 기록하세요.</p>
+        <a href="https://scalemeter.netlify.app/" target="_blank" rel="noopener noreferrer">
+          <h3>Muse Loader 2.0</h3>
+          <p class="work-meta">당신의 악상을 마음껏 기록하세요.</p>
+        </a>
       </li>
     </ul>
   </section>
 
+  <section class="contact" aria-labelledby="contact-title">
+    <h2 id="contact-title">Contact</h2>
+    <p class="desc">국립군산대학교 컴퓨터정보공학과 이서원</p>
+    <div class="contact-info">
+      <a href="mailto:hasegawa@kunsan.ac.kr">
+        <span class="icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </span>
+        <span>hasegawa@kunsan.ac.kr</span>
+      </a>
+      <a href="tel:+821021963481">
+        <span class="icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.01 21 3 13.99 3 6c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        </span>
+        <span>+82 10-2196-3481</span>
+      </a>
+    </div>
+  </section>
+
   <p class="footer">© 2025 <strong>Nodelink</strong> · All rights reserved</p>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const themeSelector = document.getElementById('theme-selector');
+    const body = document.body;
+    const applyTheme = (theme) => {
+      body.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      themeSelector.value = theme;
+    };
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+    themeSelector.addEventListener('change', (event) => {
+      applyTheme(event.target.value);
+    });
+  });
+</script>
+
 </body>
 </html>
